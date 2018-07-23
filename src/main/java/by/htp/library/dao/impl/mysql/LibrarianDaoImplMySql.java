@@ -10,7 +10,7 @@ import by.htp.library.entity.Librarian;
 
 public class LibrarianDaoImplMySql extends AbstractMySqlDao implements LibrarianDao {
 
-	private static final String SQL_SELECT_BY_LOGIN_AND_PASSWORD = "SELECT * FROM librarian WHERE login = ? AND password = ?";
+	private static final String SQL_SELECT_BY_LOGIN_AND_PASSWORD = "SELECT id_librarian, login, password FROM librarian WHERE login = ? AND password = ?";
 
 	public Librarian findByLoginAndPassword(String login, String password) {
 		Connection con = connect();

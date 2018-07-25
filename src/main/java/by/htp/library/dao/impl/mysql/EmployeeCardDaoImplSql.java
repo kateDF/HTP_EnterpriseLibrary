@@ -28,7 +28,7 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				employeeCard = createNewEmployee(rs);
+				employeeCard = createEmployeeEntity(rs);
 			}
 			List<Record> records = getRecordsByIdCard(idCard);
 			employeeCard.setRecords(records);
@@ -49,10 +49,10 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 			ps.setInt(1, idCard);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				employeeCard = createNewEmployee(rs);
+				employeeCard = createEmployeeEntity(rs);
+				List<Record> records = getRecordsByIdCard(idCard);
+				employeeCard.setRecords(records);
 			}
-			List<Record> records = getRecordsByIdCard(idCard);
-			employeeCard.setRecords(records);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -69,7 +69,7 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 			PreparedStatement ps = con.prepareStatement(SQL_SELECT_ALL_EMPLOYEE_CARDS);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				EmployeeCard card = createNewEmployee(rs);
+				EmployeeCard card = createEmployeeEntity(rs);
 				emplCards.add(card);
 			}
 		} catch (SQLException e) {
@@ -101,7 +101,7 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 		return employeeCard;
 	}
 
-	private EmployeeCard createNewEmployee(ResultSet rs) throws SQLException {
+	private EmployeeCard createEmployeeEntity(ResultSet rs) throws SQLException {
 		EmployeeCard card = new EmployeeCard();
 		card.setId(rs.getInt("id_card"));
 		card.setFullName(rs.getString("full_name"));

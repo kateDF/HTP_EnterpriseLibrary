@@ -37,7 +37,7 @@ public class ControllerLibrarian {
 		this.recordDao = recordDao;
 	}
 
-	public void myMenu() {
+	public void mainMenu() {
 
 		int action = -1;
 		do {

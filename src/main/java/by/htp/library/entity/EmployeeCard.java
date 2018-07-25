@@ -1,6 +1,7 @@
 package by.htp.library.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeCard extends DbEntity {
@@ -101,6 +102,16 @@ public class EmployeeCard extends DbEntity {
 	public String toString() {
 		return super.toString() + " fullName=" + fullName + ", phoneNumber=" + phoneNumber + ", password=" + password
 				+ ", records=" + records;
+	}
+
+	public List<Record> getRecordsWithoutReturnDate() {
+		List<Record> result = new ArrayList<>();
+		for (Record rec : records) {
+			if (rec.getReturnDate() == null) {
+				result.add(rec);
+			}
+		}
+		return result;
 	}
 
 	public boolean hasDebt() {

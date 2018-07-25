@@ -2,6 +2,7 @@ package by.htp.library.controller;
 
 import static by.htp.library.controller.ControllerUtils.inputInt;
 import static by.htp.library.controller.ControllerUtils.inputString;
+import static by.htp.library.controller.ControllerUtils.isItPossibleToTakeBook;
 
 import java.util.Scanner;
 
@@ -44,9 +45,12 @@ public class Controller {
 			Librarian librarian = authorizeAsLibrarian();
 			ControllerLibrarian controllerLibrarian = new ControllerLibrarian(bookDao, emplDao, librarianDao,
 					recordDao);
-			controllerLibrarian.myMenu();
+			controllerLibrarian.mainMenu();
 		} else if (userType == 2) {
-			showReaderMenu();
+			EmployeeCard reader = authorizeAsReader();
+			ControllerReader controllerReader = new ControllerReader(bookDao, emplDao, librarianDao, recordDao);
+			showMessageAboutDebts(reader);
+			controllerReader.mainMenu(reader);
 		}
 	}
 
@@ -64,7 +68,7 @@ public class Controller {
 		return librarian;
 	}
 
-	private void showReaderMenu() {
+	private EmployeeCard authorizeAsReader() {
 		EmployeeCard employeeCard = null;
 		while (employeeCard == null) {
 			int login = inputInt("Enter login (id your card)", 1, Integer.MAX_VALUE);
@@ -74,7 +78,13 @@ public class Controller {
 				System.out.println("Authorise failed: incorrect login or password");
 			}
 		}
-		System.out.println("Authorise success " + "message = books that  should return");
+		System.out.println("Authorise success ");
+		return employeeCard;
+	}
+
+	private void showMessageAboutDebts(EmployeeCard reader) {
+		System.out.println();
+		isItPossibleToTakeBook(reader);
 	}
 
 }

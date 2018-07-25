@@ -2,8 +2,13 @@ package by.htp.library.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import by.htp.library.entity.Book;
+import by.htp.library.entity.EmployeeCard;
+import by.htp.library.entity.Record;
 
 public class ControllerUtils {
 	private static final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z]).{6,20})";
@@ -78,6 +83,44 @@ public class ControllerUtils {
 			}
 		} while (date == null || LocalDate.now().isBefore(date));
 		return date;
+	}
+
+	public static void showListBooks(List<Book> books) {
+		int i = 1;
+		for (Book book : books) {
+			System.out.println(
+					i++ + ". Id: " + book.getId() + ". Title: " + book.getTitle() + ", author: " + book.getAuthor());
+		}
+	}
+
+	public static void showListReaders(List<EmployeeCard> readers) {
+		int i = 1;
+		for (EmployeeCard rc : readers) {
+			System.out.println(i++ + ". " + rc.getFullName() + " phoneNumber: " + rc.getPhoneNumber()
+					+ ". Login(id_card): " + rc.getId() + ", pass: " + rc.getPassword());
+		}
+	}
+
+	public static void showListRecords(List<Record> records) {
+		int i = 1;
+		for (Record record : records) {
+			System.out.println(i++ + ". " + record.getBook().getTitle() + ". End reading period: " + record.getEndDate()
+					+ (record.getReturnDate() != null ? " return " + record.getReturnDate() : " should be return"));
+		}
+	}
+
+	public static boolean isItPossibleToTakeBook(EmployeeCard reader) {
+		if (reader.hasDebt()) {
+			System.err.println(
+					"Reader: id:" + reader.getId() + " " + reader.getFullName() + " has a debt and can't take a book");
+			return false;
+		}
+		if (reader.hasMaxNumberOfBooks(3)) {
+			System.err.println("Reader: id:" + reader.getId() + " " + reader.getFullName()
+					+ " can't take a book because has already took 3 or more book and hasn't return them yet");
+			return false;
+		}
+		return true;
 	}
 
 }

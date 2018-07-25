@@ -16,11 +16,11 @@ import by.htp.library.entity.Librarian;
 
 public class Controller {
 
-	protected Scanner scan = new Scanner(System.in);
-	protected BookDao bookDao;
-	protected EmployeeCardDao emplDao;
-	protected LibrarianDao librarianDao;
-	protected RecordDao recordDao;
+	private Scanner scan = new Scanner(System.in);
+	private BookDao bookDao;
+	private EmployeeCardDao emplDao;
+	private LibrarianDao librarianDao;
+	private RecordDao recordDao;
 
 	public void start() {
 

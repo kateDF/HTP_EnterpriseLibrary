@@ -4,6 +4,10 @@ import static by.htp.library.controller.ControllerUtils.inputDate;
 import static by.htp.library.controller.ControllerUtils.inputInt;
 import static by.htp.library.controller.ControllerUtils.inputString;
 import static by.htp.library.controller.ControllerUtils.inputStringPassword;
+import static by.htp.library.controller.ControllerUtils.isItPossibleToTakeBook;
+import static by.htp.library.controller.ControllerUtils.showListBooks;
+import static by.htp.library.controller.ControllerUtils.showListReaders;
+import static by.htp.library.controller.ControllerUtils.showListRecords;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,10 +24,10 @@ import by.htp.library.entity.Record;
 public class ControllerLibrarian {
 
 	private static Scanner scan = new Scanner(System.in);
-	protected BookDao bookDao;
-	protected EmployeeCardDao emplDao;
-	protected LibrarianDao librarianDao;
-	protected RecordDao recordDao;
+	private BookDao bookDao;
+	private EmployeeCardDao emplDao;
+	private LibrarianDao librarianDao;
+	private RecordDao recordDao;
 
 	public ControllerLibrarian(BookDao bookDao, EmployeeCardDao emplDao, LibrarianDao librarianDao,
 			RecordDao recordDao) {
@@ -210,44 +214,6 @@ public class ControllerLibrarian {
 		if (confirmation == 1) {
 			recordDao.setReturnDate(id_record, returnDate);
 		}
-	}
-
-	public void showListBooks(List<Book> books) {
-		int i = 1;
-		for (Book book : books) {
-			System.out.println(
-					i++ + ". Id: " + book.getId() + ". Title: " + book.getTitle() + ", author: " + book.getAuthor());
-		}
-	}
-
-	public void showListReaders(List<EmployeeCard> readers) {
-		int i = 1;
-		for (EmployeeCard rc : readers) {
-			System.out.println(i++ + ". " + rc.getFullName() + " phoneNumber: " + rc.getPhoneNumber()
-					+ ". Login(id_card): " + rc.getId() + ", pass: " + rc.getPassword());
-		}
-	}
-
-	private void showListRecords(List<Record> records) {
-		int i = 1;
-		for (Record record : records) {
-			System.out.println(i++ + ". " + record.getBook().getTitle() + ". End reading period: " + record.getEndDate()
-					+ (record.getReturnDate() != null ? " return " + record.getReturnDate() : " should be return"));
-		}
-	}
-
-	private boolean isItPossibleToTakeBook(EmployeeCard reader) {
-		if (reader.hasDebt()) {
-			System.err.println(
-					"Reader: id:" + reader.getId() + " " + reader.getFullName() + " has a debt and can't take a book");
-			return false;
-		}
-		if (reader.hasMaxNumberOfBooks(3)) {
-			System.err.println("Reader: id:" + reader.getId() + " " + reader.getFullName()
-					+ " can't take a book because has already took 3 or more book and hasn't return them yet");
-			return false;
-		}
-		return true;
 	}
 
 	private boolean isBookAvailable(Book book) {

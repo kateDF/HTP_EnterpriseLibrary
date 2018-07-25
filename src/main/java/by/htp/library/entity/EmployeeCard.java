@@ -1,5 +1,6 @@
 package by.htp.library.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class EmployeeCard extends DbEntity {
@@ -100,6 +101,29 @@ public class EmployeeCard extends DbEntity {
 	public String toString() {
 		return super.toString() + " fullName=" + fullName + ", phoneNumber=" + phoneNumber + ", password=" + password
 				+ ", records=" + records;
+	}
+
+	public boolean hasDebt() {
+		for (Record rec : records) {
+			if (LocalDate.now().isAfter(rec.getEndDate()) && rec.getReturnDate() == null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasMaxNumberOfBooks(int maxNumberOfBooks) {
+		int counter = 0;
+		for (Record rec : records) {
+			LocalDate endDate = rec.getEndDate();
+			LocalDate returnDate = rec.getReturnDate();
+			if (endDate.isAfter(LocalDate.now()) && returnDate == null) {
+				if (++counter >= maxNumberOfBooks) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

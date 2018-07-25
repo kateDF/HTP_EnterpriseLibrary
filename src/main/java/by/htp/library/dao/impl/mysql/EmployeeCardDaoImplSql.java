@@ -29,9 +29,9 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				employeeCard = createEmployeeEntity(rs);
+				List<Record> records = getRecordsByIdCard(idCard);
+				employeeCard.setRecords(records);
 			}
-			List<Record> records = getRecordsByIdCard(idCard);
-			employeeCard.setRecords(records);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

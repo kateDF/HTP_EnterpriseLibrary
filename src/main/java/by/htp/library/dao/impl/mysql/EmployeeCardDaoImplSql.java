@@ -13,6 +13,7 @@ import by.htp.library.entity.EmployeeCard;
 import by.htp.library.entity.Record;
 
 public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements EmployeeCardDao {
+	private static final String SQL_SELECT_BY_IDCARD = "SELECT id_card, full_name, phone_number, password FROM employee_card WHERE id_card = ?";
 	private static final String SQL_SELECT_BY_IDCARD_AND_PASSWORD = "SELECT id_card, full_name, phone_number, password FROM employee_card WHERE id_card = ? AND password = ?";
 	private static final String SQL_SELECT_ALL_EMPLOYEE_CARDS = "SELECT id_card, full_name, phone_number, password FROM employee_card";
 	private static final String SQL_INSERT_EMPLOYEE_CARD = "INSERT INTO employee_card (id_card, full_name, phone_number, password) VALUES(null, ?, ?, ?)";
@@ -27,11 +28,28 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				employeeCard = new EmployeeCard();
-				employeeCard.setId(rs.getInt("id_card"));
-				employeeCard.setFullName(rs.getString("full_name"));
-				employeeCard.setPhoneNumber(rs.getString("phone_number"));
-				employeeCard.setPassword(rs.getString("password"));
+				employeeCard = createNewEmployee(rs);
+			}
+			List<Record> records = getRecordsByIdCard(idCard);
+			employeeCard.setRecords(records);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(con);
+		}
+		return employeeCard;
+	}
+
+	@Override
+	public EmployeeCard find(int idCard) {
+		Connection con = connect();
+		EmployeeCard employeeCard = null;
+		try {
+			PreparedStatement ps = con.prepareStatement(SQL_SELECT_BY_IDCARD);
+			ps.setInt(1, idCard);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				employeeCard = createNewEmployee(rs);
 			}
 			List<Record> records = getRecordsByIdCard(idCard);
 			employeeCard.setRecords(records);
@@ -51,11 +69,7 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 			PreparedStatement ps = con.prepareStatement(SQL_SELECT_ALL_EMPLOYEE_CARDS);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				EmployeeCard card = new EmployeeCard();
-				card.setId(rs.getInt("id_card"));
-				card.setFullName(rs.getString("full_name"));
-				card.setPhoneNumber(rs.getString("phone_number"));
-				card.setPassword(rs.getString("password"));
+				EmployeeCard card = createNewEmployee(rs);
 				emplCards.add(card);
 			}
 		} catch (SQLException e) {
@@ -75,7 +89,6 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 			ps.setString(2, employeeCard.getPhoneNumber());
 			ps.setString(3, employeeCard.getPassword());
 			int rs = ps.executeUpdate();
-
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 			if (generatedKeys.next()) {
 				employeeCard.setId(generatedKeys.getInt(1));
@@ -86,6 +99,15 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 			closeConnection(con);
 		}
 		return employeeCard;
+	}
+
+	private EmployeeCard createNewEmployee(ResultSet rs) throws SQLException {
+		EmployeeCard card = new EmployeeCard();
+		card.setId(rs.getInt("id_card"));
+		card.setFullName(rs.getString("full_name"));
+		card.setPhoneNumber(rs.getString("phone_number"));
+		card.setPassword(rs.getString("password"));
+		return card;
 	}
 
 }

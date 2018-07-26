@@ -1,9 +1,13 @@
 package by.htp.library.dao.impl.collection;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 import by.htp.library.dao.BookDao;
 import by.htp.library.entity.Book;
+import by.htp.library.entity.Record;
 
 public class BookDaoImplCollection extends AbstractCollectionUtilDao implements BookDao {
 
@@ -19,7 +23,11 @@ public class BookDaoImplCollection extends AbstractCollectionUtilDao implements 
 
 	@Override
 	public List<Book> searchAllAvailable() {
-		throw new UnsupportedOperationException();
+		List<Book> allBooks = data.getBooks();
+		List<Book> unavailableBooks = searchAllUnavailable();
+
+		List<Book> availableBook = new ArrayList<>(CollectionUtils.subtract(allBooks, unavailableBooks));
+		return availableBook;
 	}
 
 	@Override
@@ -39,6 +47,17 @@ public class BookDaoImplCollection extends AbstractCollectionUtilDao implements 
 		book.setId(extractNextId(data.getBooks()));
 		data.addBook(book);
 		return book;
+	}
+
+	private List<Book> searchAllUnavailable() {
+		List<Record> records = data.getAllRecords();
+		List unavailableBooks = new ArrayList<>();
+		for (Record record : records) {
+			if (record.getReturnDate() == null) {
+				unavailableBooks.add(record.getBook());
+			}
+		}
+		return unavailableBooks;
 	}
 
 }

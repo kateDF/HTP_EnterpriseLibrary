@@ -15,7 +15,7 @@ public class EmployeeCardDaoImplCollection extends AbstractCollectionUtilDao imp
 	@Override
 	public EmployeeCard find(int idCard, String password) {
 		for (EmployeeCard employee : data.getReaders()) {
-			if (employee.getId() == idCard && employee.getPassword() == password) {
+			if (employee.getId() == idCard && employee.getPassword().equals(password)) {
 				return employee;
 			}
 		}
@@ -31,6 +31,7 @@ public class EmployeeCardDaoImplCollection extends AbstractCollectionUtilDao imp
 	public EmployeeCard create(EmployeeCard employeeCard) {
 		employeeCard.setId(extractNextId(data.getReaders()));
 		data.addReaders(employeeCard);
+		data.saveData();
 		return employeeCard;
 	}
 

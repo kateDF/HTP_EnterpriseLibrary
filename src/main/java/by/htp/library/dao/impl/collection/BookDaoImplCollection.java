@@ -37,6 +37,7 @@ public class BookDaoImplCollection extends AbstractCollectionUtilDao implements 
 				b.setTitle(book.getTitle());
 				b.setAuthor(book.getAuthor());
 				b.setDescription(book.getDescription());
+				data.saveData();
 				break;
 			}
 		}
@@ -46,6 +47,7 @@ public class BookDaoImplCollection extends AbstractCollectionUtilDao implements 
 	public Book create(Book book) {
 		book.setId(extractNextId(data.getBooks()));
 		data.addBook(book);
+		data.saveData();
 		return book;
 	}
 

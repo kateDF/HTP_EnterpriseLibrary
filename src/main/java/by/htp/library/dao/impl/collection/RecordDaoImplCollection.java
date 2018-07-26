@@ -23,6 +23,7 @@ public class RecordDaoImplCollection extends AbstractCollectionUtilDao implement
 
 		reader.addRecord(record);
 
+		data.saveData();
 		return record.getId();
 	}
 
@@ -41,6 +42,7 @@ public class RecordDaoImplCollection extends AbstractCollectionUtilDao implement
 		for (Record record : data.getAllRecords()) {
 			if (record.getId() == idRecord) {
 				record.setReturnDate(returnDate);
+				data.saveData();
 			}
 		}
 	}

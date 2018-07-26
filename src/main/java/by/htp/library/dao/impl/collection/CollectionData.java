@@ -1,5 +1,11 @@
 package by.htp.library.dao.impl.collection;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +15,8 @@ import by.htp.library.entity.Librarian;
 import by.htp.library.entity.Record;
 
 public class CollectionData {
+
+	private static final String FILE = "data.bin";
 
 	private static CollectionData instance;
 	private List<Book> books = new ArrayList<>();
@@ -21,6 +29,7 @@ public class CollectionData {
 	public static CollectionData getInstance() {
 		if (instance == null) {
 			instance = new CollectionData();
+			instance.read();
 		}
 		return instance;
 	}
@@ -59,6 +68,35 @@ public class CollectionData {
 			records.addAll(employee.getRecords());
 		}
 		return records;
+	}
+
+	public void saveData() {
+		try {
+			FileOutputStream fos = new FileOutputStream(FILE);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(books);
+			oos.writeObject(readers);
+			oos.close();
+		} catch (IOException e) {
+			System.err.println("Can not save data");
+		}
+
+	}
+
+	public void read() {
+		try {
+			FileInputStream fis = new FileInputStream(FILE);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			books = (List<Book>) ois.readObject();
+			readers = (List<EmployeeCard>) ois.readObject();
+			ois.close();
+		} catch (FileNotFoundException e1) {
+			// first time application may not have file
+			System.out.println("Application starts first time");
+		} catch (ClassNotFoundException | IOException e2) {
+			System.err.println("Can not read data");
+			System.exit(1);
+		}
 	}
 
 }

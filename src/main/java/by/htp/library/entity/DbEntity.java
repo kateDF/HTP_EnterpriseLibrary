@@ -1,6 +1,8 @@
 package by.htp.library.entity;
 
-public abstract class DbEntity {
+import java.io.Serializable;
+
+public abstract class DbEntity implements Serializable {
 
 	protected int id;
 

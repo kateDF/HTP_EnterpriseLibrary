@@ -41,7 +41,7 @@ public class EmployeeCardDaoImplSql extends AbstractMySqlUtilDao implements Empl
 	}
 
 	@Override
-	public EmployeeCard find(int idCard) {
+	public EmployeeCard getById(int idCard) {
 		Connection con = connect();
 		EmployeeCard employeeCard = null;
 		try {

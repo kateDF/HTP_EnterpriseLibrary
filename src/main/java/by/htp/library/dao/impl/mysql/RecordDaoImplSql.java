@@ -14,31 +14,30 @@ import by.htp.library.entity.Record;
 
 public class RecordDaoImplSql extends AbstractMySqlUtilDao implements RecordDao {
 
-	private static final String SQL_SELECT_RECORD_BY_ID_CARD_AND_ID_BOOK = "SELECT * FROM record WHERE id_card = 1 AND id_book = 1";
 	private static final String SQL_UPDATE_RETURN_DATE = "UPDATE record SET return_date = ? WHERE id_record = ?";
 	private static final String SQL_INSERT_RECORD = "INSERT INTO record (id_record, return_date, start_date, end_date, id_card, id_book) VALUES (null, null, ?, ?, ?, ?)";
 
 	@Override
-	public int create(int id_card, int id_book, LocalDate startDate) {
-		int id_record = -1;
+	public int create(int idCard, int idBook, LocalDate startDate) {
+		int idRecord = -1;
 		Connection con = connect();
 		try {
 			PreparedStatement ps = con.prepareStatement(SQL_INSERT_RECORD, Statement.RETURN_GENERATED_KEYS);
 			ps.setDate(1, Date.valueOf(startDate));
 			ps.setDate(2, Date.valueOf(startDate.plusDays(30)));
-			ps.setInt(3, id_card);
-			ps.setInt(4, id_book);
+			ps.setInt(3, idCard);
+			ps.setInt(4, idBook);
 			int rs = ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 			if (generatedKeys.next()) {
-				id_record = generatedKeys.getInt(1);
+				idRecord = generatedKeys.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			closeConnection(con);
 		}
-		return id_record;
+		return idRecord;
 	}
 
 	@Override
@@ -47,12 +46,12 @@ public class RecordDaoImplSql extends AbstractMySqlUtilDao implements RecordDao 
 	}
 
 	@Override
-	public void setReturnDate(int id_record, LocalDate returnDate) {
+	public void setReturnDate(int idRecord, LocalDate returnDate) {
 		Connection con = connect();
 		try {
 			PreparedStatement ps = con.prepareStatement(SQL_UPDATE_RETURN_DATE);
 			ps.setDate(1, Date.valueOf(returnDate));
-			ps.setInt(2, id_record);
+			ps.setInt(2, idRecord);
 			int rs = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

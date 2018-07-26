@@ -9,7 +9,6 @@ public abstract class AbstractMySqlDao {
 
 	protected Connection connect() {
 		Connection conn = null;
-
 		try {
 			ResourceBundle rb = ResourceBundle.getBundle("db_config");
 			String driver = rb.getString("db.driver");

@@ -113,16 +113,16 @@ public class ControllerLibrarian {
 	private void addNewRecord() {
 		int typeOfAddition = inputInt("1. Add with reader id and book id. \n0. Return to main menu", 0, 2);
 		if (typeOfAddition == 1) {
-			int id_reader = inputInt("Enter reader id", 1, Integer.MAX_VALUE);
-			EmployeeCard reader = emplDao.find(id_reader);
+			int idReader = inputInt("Enter reader id", 1, Integer.MAX_VALUE);
+			EmployeeCard reader = emplDao.getById(idReader);
 			if (reader == null) {
 				System.err.println("No such reader index");
 			} else if (isItPossibleToTakeBook(reader)) {
-				int id_book = -1;
+				int idBook = -1;
 				Book book = null;
 				do {
-					id_book = inputInt("Enter book id", 1, Integer.MAX_VALUE);
-					book = bookDao.getById(id_book);
+					idBook = inputInt("Enter book id", 1, Integer.MAX_VALUE);
+					book = bookDao.getById(idBook);
 					if (book == null || !isBookAvailable(book)) {
 						System.out.println("Available books");
 						showListBooks(bookDao.searchAllAvailable());
@@ -130,7 +130,7 @@ public class ControllerLibrarian {
 
 				} while (book == null || !isBookAvailable(book));
 
-				if (id_book > 0) {
+				if (idBook > 0) {
 					int dateInp = inputInt(
 							"For using today's date as a start date: enter 0 \nFor enter different date: enter 1", 0,
 							1);
@@ -140,12 +140,12 @@ public class ControllerLibrarian {
 					} else {
 						startDate = inputDate("Input date with a format yyyy-mm-dd");
 					}
-					System.out.println("New record: ReaderId " + id_reader + ". " + reader.getFullName() + ". \nBookId "
-							+ id_book + ". Title: " + book.getTitle() + ". \nStart date: " + startDate + " - End date: "
+					System.out.println("New record: ReaderId " + idReader + ". " + reader.getFullName() + ". \nBookId "
+							+ idBook + ". Title: " + book.getTitle() + ". \nStart date: " + startDate + " - End date: "
 							+ startDate.plusDays(30));
 					int confirmation = inputInt("Enter 1 to confirm, 0 to exit", 0, 1);
 					if (confirmation == 1) {
-						recordDao.create(id_reader, id_book, startDate);
+						recordDao.create(idReader, idBook, startDate);
 					}
 				}
 			}

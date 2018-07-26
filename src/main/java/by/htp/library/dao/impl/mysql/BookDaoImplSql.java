@@ -11,7 +11,7 @@ import java.util.List;
 import by.htp.library.dao.BookDao;
 import by.htp.library.entity.Book;
 
-public class BookDaoiImplSql extends AbstractMySqlDao implements BookDao {
+public class BookDaoImplSql extends AbstractMySqlDao implements BookDao {
 	private static final String SQL_SELECT_BOOK_BY_ID = "SELECT id_book, title, author, description FROM book WHERE id_book = ?";
 	private static final String SQL_SELECT_ALL_BOOKS = "SELECT id_book, title, author, description FROM book";
 	private static final String SQL_SELECT_ALL_AVAILABLE_BOOKS = "SELECT * FROM book WHERE id_book NOT IN (SELECT id_book FROM record WHERE return_date IS null)";
@@ -81,7 +81,6 @@ public class BookDaoiImplSql extends AbstractMySqlDao implements BookDao {
 	@Override
 	public void update(Book book) {
 		Connection con = connect();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(SQL_UPDATE_BOOK);
 			ps.setString(1, book.getTitle());
@@ -100,7 +99,6 @@ public class BookDaoiImplSql extends AbstractMySqlDao implements BookDao {
 	@Override
 	public Book create(Book book) {
 		Connection con = connect();
-
 		try {
 			PreparedStatement ps = con.prepareStatement(SQL_INSERT_BOOK, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, book.getTitle());

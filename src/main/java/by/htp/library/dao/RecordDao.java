@@ -7,10 +7,10 @@ import by.htp.library.entity.Record;
 
 public interface RecordDao {
 
-	int create(int id_card, int id_book, LocalDate startDate);
+	int create(int idCard, int idBook, LocalDate startDate);
 
 	List<Record> getRecordsByIdCard(int idCard);
 
-	void setReturnDate(int id_record, LocalDate returnDate);
+	void setReturnDate(int idRecord, LocalDate returnDate);
 
 }

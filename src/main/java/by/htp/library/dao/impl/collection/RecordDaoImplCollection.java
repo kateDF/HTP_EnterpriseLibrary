@@ -11,9 +11,9 @@ import by.htp.library.entity.Record;
 public class RecordDaoImplCollection extends AbstractCollectionUtilDao implements RecordDao {
 
 	@Override
-	public int create(int id_card, int id_book, LocalDate startDate) {
-		Book book = getBookById(id_book);
-		EmployeeCard reader = getEmployeeCardById(id_card);
+	public int create(int idCard, int idBook, LocalDate startDate) {
+		Book book = getBookById(idBook);
+		EmployeeCard reader = getEmployeeCardById(idCard);
 
 		Record record = new Record();
 		record.setBook(book);
@@ -37,9 +37,9 @@ public class RecordDaoImplCollection extends AbstractCollectionUtilDao implement
 	}
 
 	@Override
-	public void setReturnDate(int id_record, LocalDate returnDate) {
+	public void setReturnDate(int idRecord, LocalDate returnDate) {
 		for (Record record : data.getAllRecords()) {
-			if (record.getId() == id_record) {
+			if (record.getId() == idRecord) {
 				record.setReturnDate(returnDate);
 			}
 		}

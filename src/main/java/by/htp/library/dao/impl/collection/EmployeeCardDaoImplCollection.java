@@ -23,7 +23,7 @@ public class EmployeeCardDaoImplCollection extends AbstractCollectionUtilDao imp
 	}
 
 	@Override
-	public EmployeeCard find(int idCard) {
+	public EmployeeCard getById(int idCard) {
 		return getEmployeeCardById(idCard);
 	}
 

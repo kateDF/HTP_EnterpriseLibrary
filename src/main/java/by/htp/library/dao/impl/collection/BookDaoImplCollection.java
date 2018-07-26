@@ -51,7 +51,7 @@ public class BookDaoImplCollection extends AbstractCollectionUtilDao implements 
 
 	private List<Book> searchAllUnavailable() {
 		List<Record> records = data.getAllRecords();
-		List unavailableBooks = new ArrayList<>();
+		List<Book> unavailableBooks = new ArrayList<>();
 		for (Record record : records) {
 			if (record.getReturnDate() == null) {
 				unavailableBooks.add(record.getBook());

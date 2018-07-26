@@ -10,7 +10,7 @@ public interface EmployeeCardDao {
 
 	EmployeeCard find(int idCard, String password);
 
-	EmployeeCard find(int idCard);
+	EmployeeCard getById(int idCard);
 
 	EmployeeCard create(EmployeeCard employeeCard);
 

@@ -21,20 +21,13 @@ import by.htp.library.entity.Book;
 import by.htp.library.entity.EmployeeCard;
 import by.htp.library.entity.Record;
 
-public class ControllerLibrarian {
+public class ControllerLibrarian extends AbstractController {
 
 	private static Scanner scan = new Scanner(System.in);
-	private BookDao bookDao;
-	private EmployeeCardDao emplDao;
-	private LibrarianDao librarianDao;
-	private RecordDao recordDao;
 
 	public ControllerLibrarian(BookDao bookDao, EmployeeCardDao emplDao, LibrarianDao librarianDao,
 			RecordDao recordDao) {
-		this.bookDao = bookDao;
-		this.emplDao = emplDao;
-		this.librarianDao = librarianDao;
-		this.recordDao = recordDao;
+		super(bookDao, emplDao, librarianDao, recordDao);
 	}
 
 	public void mainMenu() {

@@ -15,13 +15,17 @@ import by.htp.library.dao.factory.DaoFactory.DaoTypes;
 import by.htp.library.entity.EmployeeCard;
 import by.htp.library.entity.Librarian;
 
-public class Controller {
+public class Controller extends AbstractController {
 
 	private Scanner scan = new Scanner(System.in);
-	private BookDao bookDao;
-	private EmployeeCardDao emplDao;
-	private LibrarianDao librarianDao;
-	private RecordDao recordDao;
+
+	public Controller() {
+
+	}
+
+	public Controller(BookDao bookDao, EmployeeCardDao emplDao, LibrarianDao librarianDao, RecordDao recordDao) {
+		super(bookDao, emplDao, librarianDao, recordDao);
+	}
 
 	public void start() {
 

@@ -5,16 +5,11 @@ import java.util.List;
 import by.htp.library.dao.BookDao;
 import by.htp.library.entity.Book;
 
-public class BookDaoImplCollection extends AbstractCollectionDao implements BookDao {
+public class BookDaoImplCollection extends AbstractCollectionUtilDao implements BookDao {
 
 	@Override
 	public Book getById(int id) {
-		for (Book b : data.getBooks()) {
-			if (b.getId() == id) {
-				return b;
-			}
-		}
-		return null;
+		return getBookById(id);
 	}
 
 	@Override

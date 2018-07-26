@@ -5,7 +5,7 @@ import java.util.List;
 import by.htp.library.dao.EmployeeCardDao;
 import by.htp.library.entity.EmployeeCard;
 
-public class EmployeeCardDaoImplCollection extends AbstractCollectionDao implements EmployeeCardDao {
+public class EmployeeCardDaoImplCollection extends AbstractCollectionUtilDao implements EmployeeCardDao {
 
 	@Override
 	public List<EmployeeCard> searchAll() {
@@ -24,12 +24,7 @@ public class EmployeeCardDaoImplCollection extends AbstractCollectionDao impleme
 
 	@Override
 	public EmployeeCard find(int idCard) {
-		for (EmployeeCard employee : data.getReaders()) {
-			if (employee.getId() == idCard) {
-				return employee;
-			}
-		}
-		return null;
+		return getEmployeeCardById(idCard);
 	}
 
 	@Override

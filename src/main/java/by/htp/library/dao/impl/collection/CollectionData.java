@@ -6,6 +6,7 @@ import java.util.List;
 import by.htp.library.entity.Book;
 import by.htp.library.entity.EmployeeCard;
 import by.htp.library.entity.Librarian;
+import by.htp.library.entity.Record;
 
 public class CollectionData {
 
@@ -50,6 +51,14 @@ public class CollectionData {
 
 	public Librarian getLibrarian() {
 		return new Librarian(1, "librarian", "passw666");
+	}
+
+	public List<Record> getAllRecords() {
+		List<Record> records = new ArrayList<>();
+		for (EmployeeCard employee : readers) {
+			records.addAll(employee.getRecords());
+		}
+		return records;
 	}
 
 }

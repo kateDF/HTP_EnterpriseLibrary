@@ -9,7 +9,7 @@ public class EmployeeCard extends DbEntity {
 	private String fullName;
 	private String phoneNumber;
 	private String password;
-	List<Record> records;
+	List<Record> records = new ArrayList<>();
 
 	public EmployeeCard() {
 
@@ -53,6 +53,43 @@ public class EmployeeCard extends DbEntity {
 
 	public void setRecords(List<Record> records) {
 		this.records = records;
+	}
+
+	public void addRecord(Record record) {
+		records.add(record);
+	}
+
+	public List<Record> getRecordsWithoutReturnDate() {
+		List<Record> result = new ArrayList<>();
+		for (Record rec : records) {
+			if (rec.getReturnDate() == null) {
+				result.add(rec);
+			}
+		}
+		return result;
+	}
+
+	public boolean hasDebt() {
+		for (Record rec : records) {
+			if (LocalDate.now().isAfter(rec.getEndDate()) && rec.getReturnDate() == null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasMaxNumberOfBooks(int maxNumberOfBooks) {
+		int counter = 0;
+		for (Record rec : records) {
+			LocalDate endDate = rec.getEndDate();
+			LocalDate returnDate = rec.getReturnDate();
+			if (endDate.isAfter(LocalDate.now()) && returnDate == null) {
+				if (++counter >= maxNumberOfBooks) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -102,39 +139,6 @@ public class EmployeeCard extends DbEntity {
 	public String toString() {
 		return super.toString() + " fullName=" + fullName + ", phoneNumber=" + phoneNumber + ", password=" + password
 				+ ", records=" + records;
-	}
-
-	public List<Record> getRecordsWithoutReturnDate() {
-		List<Record> result = new ArrayList<>();
-		for (Record rec : records) {
-			if (rec.getReturnDate() == null) {
-				result.add(rec);
-			}
-		}
-		return result;
-	}
-
-	public boolean hasDebt() {
-		for (Record rec : records) {
-			if (LocalDate.now().isAfter(rec.getEndDate()) && rec.getReturnDate() == null) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean hasMaxNumberOfBooks(int maxNumberOfBooks) {
-		int counter = 0;
-		for (Record rec : records) {
-			LocalDate endDate = rec.getEndDate();
-			LocalDate returnDate = rec.getReturnDate();
-			if (endDate.isAfter(LocalDate.now()) && returnDate == null) {
-				if (++counter >= maxNumberOfBooks) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 }

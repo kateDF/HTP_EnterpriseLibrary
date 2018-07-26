@@ -5,32 +5,38 @@ import java.util.List;
 import by.htp.library.dao.EmployeeCardDao;
 import by.htp.library.entity.EmployeeCard;
 
-public class EmployeeCardDaoImplCollection implements EmployeeCardDao {
-
-	private CollectionData data = CollectionData.getInstance();
+public class EmployeeCardDaoImplCollection extends AbstractCollectionDao implements EmployeeCardDao {
 
 	@Override
 	public List<EmployeeCard> searchAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return data.getReaders();
 	}
 
 	@Override
 	public EmployeeCard find(int idCard, String password) {
-		// TODO Auto-generated method stub
+		for (EmployeeCard employee : data.getReaders()) {
+			if (employee.getId() == idCard && employee.getPassword() == password) {
+				return employee;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public EmployeeCard find(int idCard) {
-		// TODO Auto-generated method stub
+		for (EmployeeCard employee : data.getReaders()) {
+			if (employee.getId() == idCard) {
+				return employee;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public EmployeeCard create(EmployeeCard employeeCard) {
-		// TODO Auto-generated method stub
-		return null;
+		employeeCard.setId(extractNextId(data.getReaders()));
+		data.addReaders(employeeCard);
+		return employeeCard;
 	}
 
 }

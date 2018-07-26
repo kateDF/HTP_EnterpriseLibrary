@@ -35,6 +35,10 @@ public class Controller {
 			librarianDao = DaoFactory.getFactory(DaoTypes.MYSQL).getLibrarianDao();
 			recordDao = DaoFactory.getFactory(DaoTypes.MYSQL).getRecordDao();
 		} else if (daoType == 2) {
+			bookDao = DaoFactory.getFactory(DaoTypes.COLLECTION).getBookDao();
+			emplDao = DaoFactory.getFactory(DaoTypes.COLLECTION).getEmployeeCardDao();
+			librarianDao = DaoFactory.getFactory(DaoTypes.COLLECTION).getLibrarianDao();
+			recordDao = DaoFactory.getFactory(DaoTypes.COLLECTION).getRecordDao();
 		}
 
 		System.out.println("Who are you?");

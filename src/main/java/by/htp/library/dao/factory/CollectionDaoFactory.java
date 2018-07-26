@@ -4,31 +4,31 @@ import by.htp.library.dao.BookDao;
 import by.htp.library.dao.EmployeeCardDao;
 import by.htp.library.dao.LibrarianDao;
 import by.htp.library.dao.RecordDao;
+import by.htp.library.dao.impl.collection.BookDaoImplCollection;
+import by.htp.library.dao.impl.collection.EmployeeCardDaoImplCollection;
+import by.htp.library.dao.impl.collection.LibrarianDaoImplCollection;
+import by.htp.library.dao.impl.collection.RecordDaoImplCollection;
 
 public class CollectionDaoFactory extends DaoFactory {
 
 	@Override
 	public BookDao getBookDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BookDaoImplCollection();
 	}
 
 	@Override
 	public EmployeeCardDao getEmployeeCardDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return new EmployeeCardDaoImplCollection();
 	}
 
 	@Override
 	public LibrarianDao getLibrarianDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return new LibrarianDaoImplCollection();
 	}
 
 	@Override
 	public RecordDao getRecordDao() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RecordDaoImplCollection();
 	}
 
 }

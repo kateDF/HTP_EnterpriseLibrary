@@ -4,11 +4,8 @@ import java.util.List;
 
 import by.htp.library.dao.BookDao;
 import by.htp.library.entity.Book;
-import by.htp.library.entity.DbEntity;
 
-public class BookDaoImplCollection implements BookDao {
-
-	private CollectionData data = CollectionData.getInstance();
+public class BookDaoImplCollection extends AbstractCollectionDao implements BookDao {
 
 	@Override
 	public Book getById(int id) {
@@ -47,16 +44,6 @@ public class BookDaoImplCollection implements BookDao {
 		book.setId(extractNextId(data.getBooks()));
 		data.addBook(book);
 		return book;
-	}
-
-	private static <T extends DbEntity> int extractNextId(List<T> list) {
-		int maxId = 0;
-		for (DbEntity entity : list) {
-			if (maxId < entity.getId()) {
-				maxId = entity.getId();
-			}
-		}
-		return maxId + 1;
 	}
 
 }

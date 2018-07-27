@@ -37,10 +37,11 @@ public class ControllerLibrarian extends AbstractController {
 			System.out.println("1. Add new reader");
 			System.out.println("2. Add new book");
 			System.out.println("3. Add new record");
-			System.out.println("4. Show available books");
-			System.out.println("5. Show full list of readers");
+			System.out.println("4. Show all books");
+			System.out.println("5. Show available books");
+			System.out.println("6. Show full list of readers");
 			System.out.println("0. Exit");
-			action = inputInt("Enter menu number", 0, 5);
+			action = inputInt("Enter menu number", 0, 6);
 
 			switch (action) {
 			case 1:
@@ -53,9 +54,12 @@ public class ControllerLibrarian extends AbstractController {
 				addNewRecord();
 				break;
 			case 4:
-				showListBooksAndUpdate();
+				showAllBooks();
 				break;
 			case 5:
+				showAvailableBooksAndUpdate();
+				break;
+			case 6:
 				showReadersAndCloseRecords();
 				break;
 			}
@@ -145,6 +149,11 @@ public class ControllerLibrarian extends AbstractController {
 		}
 	}
 
+	private void showAllBooks() {
+		showListBooks(bookDao.searchAll());
+		inputInt("Return to main menu: enter 0", 0, 0);
+	}
+
 	private void updateBook(int id) {
 		String title = inputString("Enter book title", 1, 50);
 		String author = inputString("Enter book author", 1, 50);
@@ -164,7 +173,7 @@ public class ControllerLibrarian extends AbstractController {
 		}
 	}
 
-	private void showListBooksAndUpdate() {
+	private void showAvailableBooksAndUpdate() {
 		System.out.println("Available books:");
 		List<Book> availableBook = bookDao.searchAllAvailable();
 		showListBooks(availableBook);

@@ -12,6 +12,7 @@ public class LibrarianDaoImplMySql extends AbstractMySqlDao implements Librarian
 
 	private static final String SQL_SELECT_BY_LOGIN_AND_PASSWORD = "SELECT id_librarian, login, password FROM librarian WHERE login = ? AND password = ?";
 
+	@Override
 	public Librarian findByLoginAndPassword(String login, String password) {
 		Connection con = connect();
 		Librarian librarian = null;
